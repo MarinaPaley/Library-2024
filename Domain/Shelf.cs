@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using Staff;
+using System.Net.Http.Headers;
 
 namespace Domain
 {
@@ -18,7 +19,7 @@ namespace Domain
             get => this.name;
             set
             {
-                this.name = value ?? throw new ArgumentNullException(nameof(value));
+                this.name = value.TrimOrNull() ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -44,7 +45,7 @@ namespace Domain
 
         public override int GetHashCode()
         {
-            return this.Id.GetHashCode();
+            return this.Name.GetHashCode();
         }
 
         public override string ToString() => $"Название полки {this.Name}";
