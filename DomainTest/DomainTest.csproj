@@ -25,4 +25,13 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)_stylecop\develop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(SolutionDir)_stylecop\stylecop.json" Link="_stylecop\stylecop.json" />
+    <AdditionalFiles Include="$(SolutionDir)_stylecop\tests.ruleset" Link="_stylecop\tests.ruleset" />
+  </ItemGroup>
+
 </Project>
