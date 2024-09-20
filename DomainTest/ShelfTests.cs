@@ -4,10 +4,11 @@
 
 namespace DomainTest
 {
+    using System;
     using Domain;
 
     /// <summary>
-    /// Тесты на полку.
+    /// Тесты на полку <see cref="Domain.Author"/>.
     /// </summary>
     public class ShelfTests
     {
