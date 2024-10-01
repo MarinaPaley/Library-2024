@@ -6,9 +6,10 @@ namespace DomainTest
 {
     using System;
     using Domain;
+    using NUnit.Framework;
 
     /// <summary>
-    /// Тесты на полку <see cref="Domain.Author"/>.
+    /// Тесты на полку <see cref="Domain.Shelf"/>.
     /// </summary>
     public class ShelfTests
     {

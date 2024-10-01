@@ -6,8 +6,8 @@ namespace DomainTest
 {
     using System;
     using System.Collections.Generic;
-    using System.Security.Cryptography.X509Certificates;
     using Domain;
+    using NUnit.Framework;
 
     /// <summary>
     /// Тесты для класса <see cref="Domain.Author">.
@@ -31,14 +31,13 @@ namespace DomainTest
         /// <summary>
         /// Тест на конструктор с неизвестными датами жизни.
         /// </summary>
-        /// <param name="dateLive"> Даты жизни.</param>
+        /// <param name="dateBirth"> Дата рождения. </param>
+        /// <param name="dateDeath"> Дата смерти. </param>
         [TestCaseSource(nameof(ValidDateData))]
-        public void Ctor_DateLiveNull_DoesNotThrow((DateOnly?, DateOnly?) dateLive)
+        public void Ctor_DateLiveNull_DoesNotThrow(DateOnly? dateBirth, DateOnly? dateDeath)
         {
-            DateOnly? dateBirth = dateLive.Item1;
-            DateOnly? dateDeath = dateLive.Item2;
             Assert.DoesNotThrow(() =>
-            _ = new Author("Толстой", "Лев", "Николаевич", dateBirth, dateDeath));
+                _ = new Author("Толстой", "Лев", "Николаевич", dateBirth, dateDeath));
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace DomainTest
             var author2 = new Author("Пушкин", "Александр", "Сергеевич", new DateOnly(1799, 06, 06), null);
 
             // Act & Assert
-            Assert.That(author1.Equals(author2), Is.False);
+            Assert.That(author1, Is.Not.EqualTo(author2));
         }
 
         /// <summary>
@@ -81,9 +80,8 @@ namespace DomainTest
             var author2 = new Author("Толстой", "Лев", null, new DateOnly(1828, 09, 28), null);
 
             // Act & Assert
-            Assert.That(author1.Equals(author2), Is.False);
+            Assert.That(author1, Is.Not.EqualTo(author2));
         }
-
 
         private static IEnumerable<TestCaseData> ValidDateData()
         {
