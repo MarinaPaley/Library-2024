@@ -84,17 +84,35 @@ namespace Domain
                 return false;
             }
 
-            if ((this.PatronicName is not null) && (this.PatronicName != other.PatronicName))
-                {
-                    return false;
-                }
-
-            if ((this.DateBirth is not null) && (this.DateBirth != other.DateBirth))
+            if (((this.PatronicName is null) && (other.PatronicName is not null))
+                || (this.PatronicName is not null) && (other.PatronicName is null))
             {
                 return false;
             }
 
-            if ((this.DateDeath is not null) && (this.DateDeath != other.DateDeath))
+            if (this.PatronicName != other.PatronicName)
+                {
+                    return false;
+                }
+
+            if (((this.DateBirth is not null) && (other.DateBirth is null))
+                || ((this.DateBirth is null) && (other.DateBirth is not null)))
+            {
+                return false;
+            }
+
+            if (this.DateBirth != other.DateBirth)
+            {
+                return false;
+            }
+
+            if (((this.DateDeath is not null) && (other.DateDeath is null))
+                || ((this.DateDeath is null) && (other.DateDeath is not null)))
+            {
+                return false;
+            }
+
+            if (this.DateDeath != other.DateDeath)
             {
                 return false;
             }

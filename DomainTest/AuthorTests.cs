@@ -59,7 +59,7 @@ namespace DomainTest
         /// 
         /// </summary>
         [Test]
-        public void Equals_ValidData_Success()
+        public void Equals_ValidDataDifferentName_Success()
         {
             // Arrange
             var author1 = new Author("Толстой", "Лев", "Николаевич", new DateOnly(1828, 09, 28), null);
@@ -72,12 +72,29 @@ namespace DomainTest
         /// <summary>
         /// 
         /// </summary>
-        [Test]
-        public void Equals_SimilarAuthors_NotEqual()
+        [TestCaseSource(nameof(DataForNotEqual))]
+        public void Equals_SimilarAuthorsDifferentDates_NotEqual(
+            DateOnly? dateBirth1,
+            DateOnly? dateDeath1,
+            DateOnly? dateBirth2,
+            DateOnly? dateDeath2)
         {
             // Arrange
-            var author1 = new Author("Толстой", "Лев", "Николаевич", new DateOnly(1828, 09, 28), null);
-            var author2 = new Author("Толстой", "Лев", null, new DateOnly(1828, 09, 28), null);
+            var author1 = new Author("Толстой", "Лев", "Николаевич", dateBirth1, dateDeath1);
+            var author2 = new Author("Толстой", "Лев", "Николаевич", dateBirth2, dateDeath2);
+
+            // Act & Assert
+            Assert.That(author1, Is.Not.EqualTo(author2));
+        }
+
+        [TestCase("Николаевич", null)]
+        [TestCase(null, "Николаевич")]
+        [TestCase("Сергеевич", "Николаевич")]
+        public void Equals_ValidDataDifferentPatronicName_Success(string? name1, string? name2)
+        {
+            // Arrange
+            var author1 = new Author("Толстой", "Лев", name1, null, null);
+            var author2 = new Author("Толстой", "Лев", name2, null, null);
 
             // Act & Assert
             Assert.That(author1, Is.Not.EqualTo(author2));
@@ -88,6 +105,16 @@ namespace DomainTest
             yield return new TestCaseData(new DateOnly(1828, 09, 28), null);
             yield return new TestCaseData(null, new DateOnly(1910, 10, 20));
             yield return new TestCaseData(null, null);
+        }
+
+        private static IEnumerable<TestCaseData> DataForNotEqual()
+        {
+            yield return new TestCaseData(new DateOnly(1828, 09, 28), null, null, null);
+            yield return new TestCaseData(null, new DateOnly(1910, 10, 20), null, null);
+            yield return new TestCaseData(null, null, new DateOnly(1828, 09, 28), null);
+            yield return new TestCaseData(null, null, null, new DateOnly(1910, 10, 20));
+            yield return new TestCaseData(new DateOnly(1828, 09, 28), null, new DateOnly(1829, 09, 28), null);
+            yield return new TestCaseData(null, new DateOnly(1910, 10, 20), null, new DateOnly(1911, 10, 20));
         }
     }
 }
