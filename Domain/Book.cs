@@ -17,19 +17,19 @@ namespace Domain
         /// <param name="title"> Название.</param>
         /// <param name="pages"> Количество страниц. </param>
         /// <param name="ibsn"> Код IBSN. </param>
+        /// <param name="shelf"> Полка. </param>
         /// <exception cref="ArgumentNullException">Если название книги или код <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException"> Если количество страниц меньше или раво нулю.</exception>
-        public Book(string title, int pages, string ibsn)
+        public Book(string title, int pages, string ibsn, Shelf shelf)
         {
             this.Title = title.TrimOrNull() ?? throw new ArgumentNullException(nameof(title));
-            if (pages <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(pages));
-            }
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pages);
 
             this.Pages = pages;
             this.IBSN = ibsn.TrimOrNull() ?? throw new ArgumentNullException(nameof(ibsn));
             this.Id = Guid.NewGuid();
+            this.Shelf = shelf ?? throw new ArgumentNullException(nameof(shelf));
+            shelf.AddBook(this);
         }
 
         /// <summary>
@@ -51,6 +51,11 @@ namespace Domain
         /// Код IBSN.
         /// </summary>
         public string IBSN { get; }
+
+        /// <summary>
+        /// Полка.
+        /// </summary>
+        public Shelf Shelf { get; set; }
 
         /// <inheritdoc/>
         public bool Equals(Book? other)

@@ -20,13 +20,29 @@ namespace Domain
         public Shelf(string name)
         {
             this.Id = Guid.NewGuid();
-            this.Name = name;
+            this.Name = name.TrimOrNull() ?? throw new ArgumentNullException(nameof(name));
         }
 
         /// <summary>
         /// Идентификатор.
         /// </summary>
         public Guid Id { get; }
+
+        /// <summary>
+        /// Книги.
+        /// </summary>
+        public ISet<Book> Books { get; set; } = new HashSet<Book>();
+
+        /// <summary>
+        /// Добавить книгу на полку.
+        /// </summary>
+        /// <param name="book"> Книга. </param>
+        /// <returns> Полку с книгами. </returns>
+        public Shelf AddBook(Book book)
+        {
+            this.Books.Add(book);
+            return this;
+        }
 
         /// <summary>
         /// Название полки.
