@@ -19,13 +19,15 @@ namespace Domain
         /// <param name="patronicName"> Отчество. </param>
         /// <param name="dateBirth"> Дата рождения. </param>
         /// <param name="dateDeath"> Дата смерти. </param>
-        /// <exception cref="ArgumentNullException">Если имя или фамилия <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">
+        /// Если имя или фамилия <see langword="null"/>.
+        /// </exception>
         public Author(
             string familyName,
             string firstName,
-            string? patronicName,
-            DateOnly? dateBirth,
-            DateOnly? dateDeath)
+            string? patronicName = null,
+            DateOnly? dateBirth = null,
+            DateOnly? dateDeath = null)
         {
             this.Id = Guid.NewGuid();
             this.FamilyName = familyName.TrimOrNull() ?? throw new ArgumentNullException(nameof(familyName));
@@ -65,6 +67,11 @@ namespace Domain
         /// </summary>
         public DateOnly? DateDeath { get; }
 
+        /// <summary>
+        /// Книги автора.
+        /// </summary>
+        public ISet<Book> Books { get; } = new HashSet<Book>();
+
         /// <inheritdoc/>
         public bool Equals(Author? other)
         {
@@ -85,7 +92,7 @@ namespace Domain
             }
 
             if (((this.PatronicName is null) && (other.PatronicName is not null))
-                || (this.PatronicName is not null) && (other.PatronicName is null))
+                || ((this.PatronicName is not null) && (other.PatronicName is null)))
             {
                 return false;
             }

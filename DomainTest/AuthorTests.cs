@@ -10,14 +10,11 @@ namespace DomainTest
     using NUnit.Framework;
 
     /// <summary>
-    /// Тесты для класса <see cref="Domain.Author">.
-    /// </summary>.
-    public class AuthorTests
+    /// Тесты для класса <see cref="Domain.Author"/>.
+    /// </summary>
+    [TestFixture]
+    public sealed class AuthorTests
     {
-        /// <summary>
-        /// Тест на конструктор с правильными параметрами.
-        /// </summary>
-        /// <param name="patronicName"> Отчество.</param>
         [TestCase("Николаевич")]
         [TestCase(null)]
         public void Ctor_NullPatronicName_DoesNotThrow(string? patronicName)
@@ -28,11 +25,6 @@ namespace DomainTest
             _ = new Author("Толстой", "Лев", patronicName, dateBirth, dateDeath));
         }
 
-        /// <summary>
-        /// Тест на конструктор с неизвестными датами жизни.
-        /// </summary>
-        /// <param name="dateBirth"> Дата рождения. </param>
-        /// <param name="dateDeath"> Дата смерти. </param>
         [TestCaseSource(nameof(ValidDateData))]
         public void Ctor_DateLiveNull_DoesNotThrow(DateOnly? dateBirth, DateOnly? dateDeath)
         {
@@ -40,11 +32,6 @@ namespace DomainTest
                 _ = new Author("Толстой", "Лев", "Николаевич", dateBirth, dateDeath));
         }
 
-        /// <summary>
-        /// Тест на конструктор с <see langword=""="null"/> значениями.
-        /// </summary>
-        /// <param name="familyName"> Фамилия.</param>
-        /// <param name="firstName"> Имя.</param>
         [TestCase(null, "")]
         [TestCase("", null)]
         public void Ctor_WrongData_ExpectedException(string familyName, string firstName)
@@ -55,9 +42,6 @@ namespace DomainTest
                 () => _ = new Author(familyName, firstName, null, dateBirth, dateDeath));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void Equals_ValidDataDifferentName_Success()
         {
@@ -69,9 +53,6 @@ namespace DomainTest
             Assert.That(author1, Is.Not.EqualTo(author2));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [TestCaseSource(nameof(DataForNotEqual))]
         public void Equals_SimilarAuthorsDifferentDates_NotEqual(
             DateOnly? dateBirth1,

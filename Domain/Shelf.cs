@@ -11,8 +11,6 @@ namespace Domain
     /// </summary>
     public sealed class Shelf : IEquatable<Shelf>
     {
-        private string name;
-
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Shelf"/>.
         /// </summary>
@@ -31,7 +29,12 @@ namespace Domain
         /// <summary>
         /// Книги.
         /// </summary>
-        public ISet<Book> Books { get; set; } = new HashSet<Book>();
+        public ISet<Book> Books { get; } = new HashSet<Book>();
+
+        /// <summary>
+        /// Название полки.
+        /// </summary>
+        public string Name { get; }
 
         /// <summary>
         /// Добавить книгу на полку.
@@ -40,21 +43,8 @@ namespace Domain
         /// <returns> Полку с книгами. </returns>
         public Shelf AddBook(Book book)
         {
-            this.Books.Add(book);
+            _ = this.Books.Add(book);
             return this;
-        }
-
-        /// <summary>
-        /// Название полки.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">Если название <see langword="null"/>.</exception>
-        public string Name
-        {
-            get => this.name;
-            set
-            {
-                this.name = value.TrimOrNull() ?? throw new ArgumentNullException(nameof(value));
-            }
         }
 
         /// <inheritdoc />
@@ -80,10 +70,7 @@ namespace Domain
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return this.Name.GetHashCode();
-        }
+        public override int GetHashCode() => this.Name.GetHashCode();
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() => $"Название полки {this.Name}";
