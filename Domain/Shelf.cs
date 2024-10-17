@@ -4,6 +4,8 @@
 
 namespace Domain
 {
+    using System;
+    using System.Collections.Generic;
     using Staff;
 
     /// <summary>
@@ -11,6 +13,8 @@ namespace Domain
     /// </summary>
     public sealed class Shelf : IEquatable<Shelf>
     {
+        private Shelf() { }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Shelf"/>.
         /// </summary>

@@ -4,6 +4,8 @@
 
 namespace Domain
 {
+    using System;
+    using System.Collections.Generic;
     using Staff;
 
     /// <summary>
@@ -11,6 +13,8 @@ namespace Domain
     /// </summary>
     public sealed class Author : IEquatable<Author>
     {
+        private Author() { }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Author"/>.
         /// </summary>
@@ -70,7 +74,7 @@ namespace Domain
         /// <summary>
         /// Книги автора.
         /// </summary>
-        public ISet<Book> Books { get; } = new HashSet<Book>();
+        public ISet<Book> Books { get; set; } = new HashSet<Book>();
 
         /// <inheritdoc/>
         public bool Equals(Author? other)
