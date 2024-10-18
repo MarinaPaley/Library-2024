@@ -13,8 +13,6 @@ namespace Domain
     /// </summary>
     public sealed class Book : IEquatable<Book>
     {
-        private Book() { }
-
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Book"/>.
         /// </summary>
@@ -37,9 +35,7 @@ namespace Domain
             this.Pages = pages;
             this.IBSN = ibsn.TrimOrNull() ?? throw new ArgumentNullException(nameof(ibsn));
             this.Id = Guid.NewGuid();
-            this.Shelf = shelf ?? throw new ArgumentNullException(nameof(shelf));
-
-            _ = shelf.AddBook(this);
+            this.Shelf = shelf;
 
             foreach (var author in authors)
             {
@@ -61,6 +57,11 @@ namespace Domain
         /// <exception cref="ArgumentOutOfRangeException"> Если авторы <see langword="null"/>.</exception>
         public Book(string title, int pages, string ibsn, Shelf shelf, params Author[] authors)
             : this(title, pages, ibsn, shelf, new HashSet<Author>(authors))
+        {
+        }
+
+        [Obsolete("ORM only")]
+        private Book()
         {
         }
 
@@ -87,7 +88,19 @@ namespace Domain
         /// <summary>
         /// Полка.
         /// </summary>
-        public Shelf Shelf { get; set; }
+        public Shelf Shelf
+        {
+            get => this.shelf;
+            set
+            {
+                ArgumentNullException.ThrowIfNull(value);
+
+                this.shelf?.RemoveBook(this);
+
+                this.shelf = value;
+                this.shelf.AddBook(this);
+            }
+        }
 
         /// <summary>
         /// Авторы.
@@ -132,5 +145,7 @@ namespace Domain
         {
             return this.Title;
         }
+
+        private Shelf shelf;
     }
 }

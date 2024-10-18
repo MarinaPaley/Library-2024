@@ -51,6 +51,17 @@ namespace Domain
             return this;
         }
 
+        /// <summary>
+        /// Удалить книгу с полки.
+        /// </summary>
+        /// <param name="book"> Книга.</param>
+        /// <returns> Полка.</returns>
+        public Shelf RemoveBook(Book book)
+        {
+            _ = this.Books.Remove(book);
+            return this;
+        }
+
         /// <inheritdoc />
         public bool Equals(Shelf? other)
         {
