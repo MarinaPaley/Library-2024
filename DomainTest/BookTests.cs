@@ -49,5 +49,19 @@ namespace DomainTest
             // act & assert
             Assert.Throws<ArgumentNullException>(() => book.Shelf = null!);
         }
+
+        [Test]
+        public void ToString_ValidData_Success()
+        {
+            // arrange
+            var book = new Book("Тестовое название", 100, "1", Shelf, Authors);
+            var expected = new string("Тестовое название Толстой Лев");
+
+            // act
+            var actual = book.ToString();
+
+            // assert
+            Assert.That(actual, Is.EqualTo(expected));
+        }
     }
 }

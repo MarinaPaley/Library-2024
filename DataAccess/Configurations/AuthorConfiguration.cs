@@ -1,4 +1,4 @@
-﻿// <copyright file="BookConfiguration.cs" company="Васильева М.А.">
+﻿// <copyright file="AuthorConfiguration.cs" company="Васильева М.А.">
 // Copyright (c) Васильева М.А.. All rights reserved.
 // </copyright>
 
@@ -9,31 +9,35 @@ namespace DataAccess.Configurations
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     /// <summary>
-    /// Конфигурация правил отображения сущности (<see cref="Book"/>) в таблицу БД.
+    /// Конфигурация правил отображения сущности (<see cref="Author"/>) в таблицу БД.
     /// </summary>
-    public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
+    public sealed class AuthorConfiguration : IEntityTypeConfiguration<Author>
     {
         /// <inheritdoc/>
-        public void Configure(EntityTypeBuilder<Book> builder)
+        public void Configure(EntityTypeBuilder<Author> builder)
         {
-            _ = builder.HasKey(book => book.Id);
+            _ = builder.HasKey(author => author.Id);
 
-            _ = builder.Property(book => book.Title)
+            _ = builder.Property(author => author.FamilyName)
                 .HasMaxLength(100)
                 .IsRequired();
 
-            _ = builder.Property(book => book.Pages)
+            _ = builder.Property(author => author.FirstName)
+                .HasMaxLength(100)
                 .IsRequired();
 
-            _ = builder.Property(book => book.IBSN)
+            _ = builder.Property(author => author.PatronicName)
+                .HasMaxLength(100)
                 .IsRequired(false);
 
+            _ = builder.Property(author => author.DateBirth)
+                .IsRequired(false);
 
-            _ = builder.HasMany(book => book.Authors)
-                .WithMany(author => author.Books);
+            _ = builder.Property(author => author.DateDeath)
+                .IsRequired(false);
 
-            _ = builder.HasOne(book => book.Shelf)
-                .WithMany(shelf => shelf.Books);
+            _ = builder.HasMany(author => author.Books)
+                .WithMany(book => book.Authors);
         }
     }
 }

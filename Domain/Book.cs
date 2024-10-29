@@ -13,6 +13,8 @@ namespace Domain
     /// </summary>
     public sealed class Book : IEquatable<Book>
     {
+        private Shelf shelf;
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Book"/>.
         /// </summary>
@@ -34,7 +36,7 @@ namespace Domain
 
             this.Pages = pages;
             this.IBSN = ibsn.TrimOrNull() ?? throw new ArgumentNullException(nameof(ibsn));
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.Empty;
             this.Shelf = shelf;
 
             foreach (var author in authors)
@@ -143,9 +145,7 @@ namespace Domain
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.Title;
+            return $"{this.Title} {this.Authors.Join()}";
         }
-
-        private Shelf shelf;
     }
 }

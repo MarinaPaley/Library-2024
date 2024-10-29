@@ -21,7 +21,7 @@ namespace Domain
         /// <param name="name"> Название полки.</param>
         public Shelf(string name)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.Empty;
             this.Name = name.TrimOrNull() ?? throw new ArgumentNullException(nameof(name));
         }
 
