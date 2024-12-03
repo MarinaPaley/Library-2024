@@ -35,10 +35,33 @@ namespace DomainTest
 
         [TestCase(0)]
         [TestCase(-1)]
-        public void Ctor_NegativePages_ExpectedAOUR(int pages)
+        public void Ctor_NegativePages_ExpectedArgumentOutOfRangeException(int pages)
         {
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => _ = new Book("Тестовое название", pages, "1", Shelf, Authors));
+        }
+
+        public void SetShelf_NullSheld_ExpectedException()
+        {
+            // arrange
+            var book = new Book("Тестовое название", 100, "1", Shelf, Authors);
+
+            // act & assert
+            Assert.Throws<ArgumentNullException>(() => book.Shelf = null!);
+        }
+
+        [Test]
+        public void ToString_ValidData_Success()
+        {
+            // arrange
+            var book = new Book("Тестовое название", 100, "1", Shelf, Authors);
+            var expected = new string("Тестовое название Толстой Лев");
+
+            // act
+            var actual = book.ToString();
+
+            // assert
+            Assert.That(actual, Is.EqualTo(expected));
         }
     }
 }

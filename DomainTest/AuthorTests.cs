@@ -81,6 +81,37 @@ namespace DomainTest
             Assert.That(author1, Is.Not.EqualTo(author2));
         }
 
+        [Test]
+        public void ToString_ValidData_Success()
+        {
+            // arrange
+            var author = new Author("Толстой", "Лев");
+            var expected = new string("Толстой Лев");
+
+            // act
+            var actual = author.ToString();
+
+            // assert
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void HasBook_ValidData_Success()
+        {
+            // arrange
+            var shelf = new Shelf("Полка");
+            var author = new Author("Толстой", "Лев");
+            ISet<Author> authors = new HashSet<Author>() { author };
+            var book = new Book("Тестовое название", 100, "1", shelf, authors);
+
+            // act & assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(book.Authors.Contains(author), Is.True);
+                Assert.That(author.Books.Contains(book), Is.True);
+            });
+        }
+
         private static IEnumerable<TestCaseData> ValidDateData()
         {
             yield return new TestCaseData(new DateOnly(1828, 09, 28), null);

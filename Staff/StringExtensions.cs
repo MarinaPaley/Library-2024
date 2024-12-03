@@ -1,4 +1,8 @@
-﻿namespace Staff
+﻿// <copyright file="StringExtensions.cs" company="Васильева М.А.">
+// Copyright (c) Васильева М.А.. All rights reserved.
+// </copyright>
+
+namespace Staff
 {
     public static class StringExtensions
     {
@@ -10,7 +14,6 @@
             return trimmed.IsNullOrEmpty()
                  ? null
                  : trimmed;
-
         }
     }
 }

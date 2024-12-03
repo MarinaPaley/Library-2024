@@ -4,6 +4,8 @@
 
 namespace Domain
 {
+    using System;
+    using System.Collections.Generic;
     using Staff;
 
     /// <summary>
@@ -11,13 +13,15 @@ namespace Domain
     /// </summary>
     public sealed class Shelf : IEquatable<Shelf>
     {
+        private Shelf() { }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Shelf"/>.
         /// </summary>
         /// <param name="name"> Название полки.</param>
         public Shelf(string name)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.Empty;
             this.Name = name.TrimOrNull() ?? throw new ArgumentNullException(nameof(name));
         }
 
@@ -44,6 +48,17 @@ namespace Domain
         public Shelf AddBook(Book book)
         {
             _ = this.Books.Add(book);
+            return this;
+        }
+
+        /// <summary>
+        /// Удалить книгу с полки.
+        /// </summary>
+        /// <param name="book"> Книга.</param>
+        /// <returns> Полка.</returns>
+        public Shelf RemoveBook(Book book)
+        {
+            _ = this.Books.Remove(book);
             return this;
         }
 

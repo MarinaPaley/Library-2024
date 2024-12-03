@@ -5,6 +5,7 @@
 namespace DomainTest
 {
     using System;
+    using System.Collections.Generic;
     using Domain;
     using NUnit.Framework;
 
@@ -53,6 +54,37 @@ namespace DomainTest
 
             // assert
             Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void AddBook_NullBook_ExpectedException()
+        {
+            // arrange
+            var shelf = new Shelf("Полка 1");
+
+            // act & assert
+            Assert.DoesNotThrow(() => _ = shelf.AddBook(null!));
+        }
+
+        [Test]
+        public void BookChangeShelf_ValidShelf_BoookHasNewShelf()
+        {
+            // arrange
+            var shelf = new Shelf("Полка");
+            ISet<Author> authors = new HashSet<Author>() { new ("Толстой", "Лев"), };
+            var book = new Book("Тестовое название", 100, "1", shelf, authors);
+
+            var newShelf = new Shelf("Другая полка");
+
+            // act
+            book.Shelf = newShelf;
+
+            // assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(newShelf.Books.Contains(book), Is.True);
+                Assert.That(shelf.Books.Contains(book), Is.False);
+            });
         }
     }
 }

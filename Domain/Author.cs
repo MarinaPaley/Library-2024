@@ -4,6 +4,8 @@
 
 namespace Domain
 {
+    using System;
+    using System.Collections.Generic;
     using Staff;
 
     /// <summary>
@@ -11,6 +13,8 @@ namespace Domain
     /// </summary>
     public sealed class Author : IEquatable<Author>
     {
+        private Author() { }
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Author"/>.
         /// </summary>
@@ -29,7 +33,7 @@ namespace Domain
             DateOnly? dateBirth = null,
             DateOnly? dateDeath = null)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.Empty;
             this.FamilyName = familyName.TrimOrNull() ?? throw new ArgumentNullException(nameof(familyName));
             this.FirstName = firstName.TrimOrNull() ?? throw new ArgumentNullException(nameof(firstName));
             this.PatronicName = patronicName?.TrimOrNull();
@@ -70,7 +74,7 @@ namespace Domain
         /// <summary>
         /// Книги автора.
         /// </summary>
-        public ISet<Book> Books { get; } = new HashSet<Book>();
+        public ISet<Book> Books { get; set; } = new HashSet<Book>();
 
         /// <inheritdoc/>
         public bool Equals(Author? other)
@@ -134,32 +138,11 @@ namespace Domain
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            var hashCode = this.FamilyName.GetHashCode()
-                * this.FirstName.GetHashCode();
-
-            if (this.PatronicName is not null)
-            {
-                hashCode *= this.PatronicName.GetHashCode();
-            }
-
-            if (this.DateBirth is not null)
-            {
-                hashCode *= this.DateBirth.GetHashCode();
-            }
-
-            if (this.DateDeath is not null)
-            {
-                hashCode *= this.DateDeath.GetHashCode();
-            }
-
-            return hashCode;
-        }
+        public override int GetHashCode() => HashCode.Combine(this.FamilyName, this.FirstName, this.PatronicName, this.DateBirth, this.DateDeath);
 
         /// <inheritdoc/>
         public override string ToString() =>
-            (this.PatronicName is null)
+            (this.PatronicName is not null)
             ? $"{this.FamilyName} {this.FirstName} {this.PatronicName}"
             : $"{this.FamilyName} {this.FirstName}";
     }
